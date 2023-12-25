@@ -1,0 +1,69 @@
+// Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+
+// The overall run time complexity should be O(log (m+n)).
+
+ 
+
+// Example 1:
+
+// Input: nums1 = [1,3], nums2 = [2]
+// Output: 2.00000
+// Explanation: merged array = [1,2,3] and median is 2.
+// Example 2:
+
+// Input: nums1 = [1,2], nums2 = [3,4]
+// Output: 2.50000
+// Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
+
+
+====================C#=====================================================
+
+
+public class Solution {
+    public double FindMedianSortedArrays(int[] nums1, int[] nums2) {
+        float res = 0; // Result (will be accumulated in case)
+        var i = 0;
+        var i1 = 0; // nums1 index
+        var i2 = 0; // nums2 index
+
+        int lenSum = nums1.Length + nums2.Length;
+        // Rounded Median Index (finding median index by dividing sum of lengths by 2 and substract 1 as we need index and indexes starts from 0)
+        int iM = (int)Math.Ceiling(lenSum / 2f) - 1; 
+
+         // Median Addition for index in case it is even (so we should run one more iteration)
+        int iMA = (lenSum % 2 == 0) ? 1 : 0;
+
+        while (i <= iM + iMA) { 
+            // Running until our iterations count will reach Median Rounded Index + Median Rounded Index Addition
+
+            // Set up values if they exists, if not writing MaxValue, so it can go in right if .. else body
+
+            var val1 = (i1 < nums1.Length) ? nums1[i1] : int.MaxValue;
+            var val2 = (i2 < nums2.Length) ? nums2[i2] : int.MaxValue;
+
+            if (val1 < val2) {
+                if (i >= iM) {
+                    res += val1;
+                }
+
+                i1++;
+            } else {
+                if (i >= iM) {
+                    res += val2;
+                }
+
+                i2++;
+            }
+
+            i++;
+        }
+
+        if (iMA == 1) { 
+            // If we added 1 more iteration it means res has sum of 2 values, so need divide it by 2
+            
+            res /= 2;
+        }
+
+        return res;
+    }
+}
