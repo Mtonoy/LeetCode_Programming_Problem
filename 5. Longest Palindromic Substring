@@ -1,0 +1,33 @@
+public class Solution {
+    public string LongestPalindrome(string s) {
+        string longest = "";
+        for(int i = 0; i < s.Length; i++)
+        {
+            string odd = CheckPalindrome(s, i, i);
+            string even = CheckPalindrome(s, i, i+1);
+
+            if(odd.Length > longest.Length) longest = odd;
+            if(even.Length > longest.Length) longest = even;
+        }
+
+        return longest;
+    }
+
+    private string CheckPalindrome(string s, int left, int right)
+    {
+        string longest = "";
+
+        while(left >= 0 && right < s.Length){
+            if(s[left] == s[right]){
+                longest = s.Substring(left, right - left + 1);
+                left--;
+                right++;
+            }
+            else{
+                break;
+            }
+        }
+
+        return longest;
+    }
+}
